@@ -1,7 +1,7 @@
 # Mouse draw canvas!
 
 ## Repository
-<Link to your project's public GitHub respository>
+<https://github.com/kckid22/PFDA/tree/main/Final%20Project>
 
 ## Description
 This little 'game' will make it possible for someone to draw, erase, and create

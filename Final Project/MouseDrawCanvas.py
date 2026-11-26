@@ -92,6 +92,17 @@ while True:
     pygame.draw.rect(screen, (70, 70, 90), eraser_button)
     screen.blit(font.render("Eraser", True, (255, 255, 255)), (eraser_button.x
     + 8, eraser_button.y + 8))
+    
+    pygame.draw.rect(screen, (70, 70, 90), minus_button)
+    screen.blit(font.render("-", True, (255, 255, 255)), (minus_button.x
+    + 11, minus_button.y +8))
+
+    pygame.draw.rect(screen, (70, 70, 90), plus_button)
+    screen.blit(font.render("+", True, (255, 255, 255)), (plus_button.x
+    + 9, plus_button.y +8))
+
+    size_text = font.render(f"Size: {brush_size}", True, (20, 20, 30))
+    screen.blit(size_text, (496, 54))
 
     screen.blit(canvas, (0, Toolbar_Height))
 

@@ -11,10 +11,23 @@ pygame.display.set_caption("Mouse Draw Window")
 canvas = pygame.Surface((Width, Height - Toolbar_Height))
 canvas.fill((255, 255, 255))
 
+Colors = {
+    "red": (230, 57, 70),
+    "orange": (247, 127, 0),
+    "yellow": (252, 191, 73),
+    "green": (42, 157, 143),
+    "blue": (0, 150, 199),
+    "purple": (157, 78, 221),
+    "black": (20, 20, 20),
+    "white": (255, 255, 255) # Used as eraser
+}
+
 drawing = False
 last_pos = None
 current_color = (0, 180, 216)
 brush_size = 5
+
+
 
 clock = pygame.time.Clock()
 

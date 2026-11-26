@@ -20,7 +20,7 @@ Colors = {
     "blue": (0, 150, 199),
     "purple": (157, 78, 221),
     "black": (20, 20, 20),
-    "white": (255, 255, 255), # Used as eraser
+    "white": (255, 255, 255), 
 }
 
 drawing = False
@@ -42,6 +42,8 @@ color_buttons = {
 }
 
 eraser_button = pygame.Rect(334, 45, 64, 35)
+minus_button = pygame.Rect(410, 45, 30, 35)
+plus_button = pygame.Rect(448, 45, 30, 35)
 
 clock = pygame.time.Clock()
 
@@ -57,12 +59,15 @@ while True:
                 canvas_pos = (event.pos[0], event.pos[1] - Toolbar_Height)
                 last_pos = canvas_pos
             else: 
-                # check color swatches and eraser inside toolbar
                 for name, rect in color_buttons.items():
                     if rect.collidepoint(event.pos):
                         current_color = Colors[name]
                 if eraser_button.collidepoint(event.pos):
                     current_color = Colors["white"]
+                if minus_button.collidepoint(event.pos):
+                    brush_size = max(2, brush_size -2)
+                if plus_button.collidepoint(event.pos):
+                    brush_size = min(40, brush_size + 2)
 
         elif event.type == pygame.MOUSEBUTTONUP:
             drawing = False
@@ -72,7 +77,6 @@ while True:
             if event.pos[1] >= Toolbar_Height:
                 canvas_pos = (event.pos[0], event.pos[1] - Toolbar_Height)
                 if last_pos:
-                    # have smooth lines between mouse movements
                     pygame.draw.line(canvas, current_color, last_pos, canvas_pos,
                 brush_size) 
                 last_pos = canvas_pos

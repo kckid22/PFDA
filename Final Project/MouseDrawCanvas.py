@@ -2,6 +2,7 @@ import pygame
 import sys
 
 pygame.init()
+pygame.font.init()
 
 Width, Height = 900, 700
 Toolbar_Height = 120
@@ -19,15 +20,28 @@ Colors = {
     "blue": (0, 150, 199),
     "purple": (157, 78, 221),
     "black": (20, 20, 20),
-    "white": (255, 255, 255) # Used as eraser
+    "white": (255, 255, 255), # Used as eraser
 }
 
 drawing = False
 last_pos = None
-current_color = (0, 180, 216)
+current_color = Colors["black"]
 brush_size = 5
 
+font = pygame.font.SysFont(None, 22)
 
+color_buttons = {
+    "red": pygame.Rect(20, 45, 30, 30),
+    "orange": pygame.Rect(58, 45, 30, 30),
+    "yellow": pygame.Rect(96, 45, 30, 30),
+    "green": pygame.Rect(134, 45, 30, 30),
+    "blue": pygame.Rect(172, 45, 30, 30),
+    "purple": pygame.Rect(210, 45, 30, 30),
+    "black": pygame.Rect(248, 45, 30, 30),
+    "white": pygame.Rect(286, 45, 30, 30),
+}
+
+eraser_button = pygame.Rect(334, 45, 64, 35)
 
 clock = pygame.time.Clock()
 
@@ -38,11 +52,17 @@ while True:
             sys.exit()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            #check if click is on canvas area
             if event.pos[1] >= Toolbar_Height:
                 drawing = True
                 canvas_pos = (event.pos[0], event.pos[1] - Toolbar_Height)
                 last_pos = canvas_pos
+            else: 
+                # check color swatches and eraser inside toolbar
+                for name, rect in color_buttons.items():
+                    if rect.collidepoint(event.pos):
+                        current_color = Colors[name]
+                if eraser_button.collidepoint(event.pos):
+                    current_color = Colors["white"]
 
         elif event.type == pygame.MOUSEBUTTONUP:
             drawing = False
@@ -54,9 +74,21 @@ while True:
                 if last_pos:
                     # have smooth lines between mouse movements
                     pygame.draw.line(canvas, current_color, last_pos, canvas_pos,
-                brush_size, last_pos = canvas_pos)
+                brush_size) 
+                last_pos = canvas_pos
 
     screen.fill((240, 240, 245))
+
+    for name, rect in color_buttons.items():
+        pygame.draw.rect(screen, Colors[name], rect)
+        border_color = (255, 255, 255) if current_color == Colors[name] else (120, 120, 140)
+        border_width = 3 if current_color == Colors[name] else 1
+        pygame.draw.rect(screen, border_color, rect, border_width)
+
+    pygame.draw.rect(screen, (70, 70, 90), eraser_button)
+    screen.blit(font.render("Eraser", True, (255, 255, 255)), (eraser_button.x
+    + 8, eraser_button.y + 8))
+
     screen.blit(canvas, (0, Toolbar_Height))
 
     pygame.display.flip()
